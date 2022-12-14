@@ -1,7 +1,8 @@
 package server.Spring.service.implementation;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import server.Spring.model.User;
 import server.Spring.repository.UserRepository;
@@ -15,9 +16,16 @@ import java.util.Collection;
 @Slf4j
 public class UserServiceImplementation implements UserService {
     private final UserRepository userRepository;
+    private final String USER_NOT_FOUND_MSG = "This user cannot be found";
 
     public UserServiceImplementation(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return (UserDetails) userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
     }
 
     @Override
