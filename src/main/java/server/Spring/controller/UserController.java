@@ -23,12 +23,12 @@ public class UserController {
     }
 
 
-    @PostMapping("/registeruser")
+    @PostMapping("/register")
     public ResponseEntity<User> addUser(@RequestBody User user){
         User userAdd = userService.createUser(user);
         return new ResponseEntity<>(userAdd, HttpStatus.CREATED);
     }
-//
+
     @GetMapping("/users")
     public ResponseEntity<Collection<User>> getAllUsers(){
         Collection<User> users = userService.listAllUsers(10);
@@ -41,7 +41,7 @@ public class UserController {
         return new ResponseEntity<>(singleUser, HttpStatus.OK);
     }
 
-    @PutMapping("/edituser")
+    @PutMapping("/editProfile")
     public ResponseEntity<User> updateUser(@RequestBody User user){
         User userUpdate = userService.updateUser(user);
         return new ResponseEntity<>(userUpdate, HttpStatus.OK);
